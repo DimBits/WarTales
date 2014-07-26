@@ -19,3 +19,16 @@
 *.exe
 *.out
 *.app
+
+# NetBeans files
+*/nbproject/
+*/build/
+*/dist/
+*/.dep.inc
+
+# Third-party files
+WT-client/Box2D/
+Common/SDL2/
+
+# Game textures
+WT-client/Resources/
