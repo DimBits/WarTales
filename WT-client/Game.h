@@ -5,32 +5,34 @@
 #include <string>
 #include "ObjectManager.h"
 #include "Noncopyable.h"
+#include "EventProcessingObject.h"
 #include "wt-client.h"
 
-class Game final : public Noncopyable {
+class Game final : public Noncopyable, public EventProcessingObject {
 public:
     Game();
-    ~Game();
+    virtual ~Game();
     static Game* getInstance();
     SDL_Window* getWindow() const;
     SDL_Renderer* getRenderer() const;
-    const SDL_Rect& getPosition() const;
+    void setSize(int32_t width, int32_t height);
+    void getSize(int32_t& width, int32_t& height) const;
     bool isRunning() const;
-    const std::string& getTitle() const;
-    void setTitle(const std::string& title);
+    const char* getTitle() const;
+    void setTitle(const char* title);
     void setRenderDrawColor(const SDL_Color& color);
+    void setWindowFlags(const uint32_t flags);
     void quit();
     void exec();
+    void processEvent(SDL_Event& event) override;
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;
-    SDL_Rect position = wt::DEFAULT::GAME_WINDOW_POSITION;
-    SDL_Color renderDrawColor = wt::DEFAULT::GAME_RENDER_DRAW_COLOR;
-    bool fullscreenEnable = wt::DEFAULT::GAME_WINDOW_FULLSCREEN_ENABLE;
-    std::string title = wt::DEFAULT::GAME_WINDOW_TITLE;
-    ObjectManager objectManager;
-    bool running;
+    ObjectManager* objectManager;
     static Game* instance;
+    uint32_t flags = wt::DEFAULT::GAME_WINDOW_FLAGS;
+    SDL_Color renderDrawColor = wt::DEFAULT::GAME_RENDER_DRAW_COLOR;
+    bool running;
     void render();
     void processEvents();
     void onQuit();

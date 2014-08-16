@@ -1,23 +1,18 @@
 #include "Game.h"
 #include <iostream>
-#include <sstream>
 
 Game::Game() {
-    int32_t flags = 0;
-    this->position = position;
-    if (this->fullscreenEnable) {
-        flags = SDL_WINDOW_FULLSCREEN;
-    }
     std::clog << "Attempt to initialize SDL ... ";
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
         std::clog << "success\n";
         std::clog << "Attempt to initialize window ... ";
-        this->window = SDL_CreateWindow(this->title.c_str(),
-                this->position.x,
-                this->position.y,
-                this->position.w,
-                this->position.h,
-                flags);
+        SDL_Rect position = wt::DEFAULT::GAME_WINDOW_POSITION;
+        this->window = SDL_CreateWindow(wt::DEFAULT::GAME_WINDOW_TITLE,
+                position.x,
+                position.y,
+                position.w,
+                position.h,
+                this->flags);
         if (this->window != nullptr) {
             std::clog << "success\n";
             std::clog << "Attempt to initialize renderer ... ";
@@ -37,11 +32,12 @@ Game::Game() {
         std::clog << "fail\n";
         std::cerr << "Can't initialize SDL\n";
     }
-    this->running = true;
     Game::instance = this;
+    this->objectManager = new ObjectManager;
 }
 
 Game::~Game() {
+    delete this->objectManager;
     std::clog << "Destroying renderer\n";
     SDL_DestroyRenderer(this->renderer);
     std::clog << "Destroying window\n";
@@ -50,13 +46,16 @@ Game::~Game() {
     SDL_Quit();
 }
 
-void Game::setTitle(const std::string& title) {
-    this->title = title;
-    SDL_SetWindowTitle(this->window, this->title.c_str());
+void Game::setWindowFlags(const uint32_t flags) {
+    this->flags = flags;
 }
 
-const std::string& Game::getTitle() const {
-    return this->title;
+void Game::setTitle(const char* title) {
+    SDL_SetWindowTitle(this->window, title);
+}
+
+const char* Game::getTitle() const {
+    return SDL_GetWindowTitle(this->window);
 }
 
 void Game::setRenderDrawColor(const SDL_Color& color) {
@@ -69,26 +68,34 @@ void Game::setRenderDrawColor(const SDL_Color& color) {
 }
 
 void Game::exec() {
-    Uint32 frameStart, frameTime;
+    this->running = true;
+    uint32_t frameStart, frameTime;
     while (this->running) {
         frameStart = SDL_GetTicks();
         this->processEvents();
         this->render();
         frameTime = SDL_GetTicks() - frameStart;
         if (frameTime < wt::DEFAULT::GAME_LOOP_TIMEOUT) {
-            SDL_Delay(static_cast<Uint32>(wt::DEFAULT::GAME_LOOP_TIMEOUT - frameTime));
+            SDL_Delay(static_cast<uint32_t>(wt::DEFAULT::GAME_LOOP_TIMEOUT - frameTime));
         }
+    }
+}
+
+void Game::processEvent(SDL_Event& event) {
+    switch (event.type) {
+        case SDL_QUIT:
+            this->onQuit();
+            break;
+        default:
+            this->objectManager->processEvent(event);
+            break;
     }
 }
 
 void Game::processEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                this->onQuit();
-                break;
-        }
+        this->processEvent(event);
     }
 }
 
@@ -98,7 +105,7 @@ void Game::onQuit() {
 
 void Game::render() {
     SDL_RenderClear(this->renderer);
-    this->objectManager.render();
+    this->objectManager->render();
     SDL_RenderPresent(this->renderer);
 }
 
@@ -110,13 +117,16 @@ SDL_Window* Game::getWindow() const {
     return this->window;
 }
 
-SDL_Renderer* Game::getRenderer() const {
-    return this->renderer;
+void Game::getSize(int32_t& width, int32_t& height) const {
+    SDL_GetWindowSize(this->window, &width, &height);
 }
 
-const SDL_Rect& Game::getPosition() const
-{
-    return this->position;
+void Game::setSize(int32_t width, int32_t height) {
+    SDL_SetWindowSize(this->window, width, height);
+}
+
+SDL_Renderer* Game::getRenderer() const {
+    return this->renderer;
 }
 
 bool Game::isRunning() const {

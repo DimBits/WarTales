@@ -6,7 +6,8 @@
 
 class EventProcessingObject : virtual public Object {
 public:
-    virtual void processEvent(SDL_Event event) = 0;
+    virtual ~EventProcessingObject() {}
+    virtual void processEvent(SDL_Event& event) = 0;
 };
 
 #endif	/* EVENTPROCESSINGOBJECT_H */
