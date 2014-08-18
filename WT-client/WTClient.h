@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define	GAME_H
+#ifndef WTCLIENT_H
+#define	WTCLIENT_H
 
 #include <SDL.h>
 #include <string>
@@ -8,11 +8,11 @@
 #include "EventProcessingObject.h"
 #include "wt-client.h"
 
-class Game final : public Noncopyable, public EventProcessingObject {
+class WTClient final : public Noncopyable, public EventProcessingObject {
 public:
-    Game();
-    virtual ~Game();
-    static Game* getInstance();
+    WTClient();
+    virtual ~WTClient();
+    static WTClient* getInstance();
     SDL_Window* getWindow() const;
     SDL_Renderer* getRenderer() const;
     void setSize(int32_t width, int32_t height);
@@ -29,14 +29,14 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     ObjectManager* objectManager;
-    static Game* instance;
-    uint32_t flags = wt::DEFAULT::GAME_WINDOW_FLAGS;
-    SDL_Color renderDrawColor = wt::DEFAULT::GAME_RENDER_DRAW_COLOR;
+    static WTClient* instance;
+    uint32_t flags = wt::DEFAULT::WINDOW_FLAGS;
+    SDL_Color renderDrawColor = wt::DEFAULT::RENDER_DRAW_COLOR;
     bool running;
     void render();
     void processEvents();
     void onQuit();
 };
 
-#endif	/* GAME_H */
+#endif	/* WTCLIENT_H */
 

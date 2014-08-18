@@ -1,94 +1,94 @@
-#include "DrawableObject.h"
+#include "RenderObject.h"
 #include <SDL_image.h>
 #include <cmath>
 #include <iostream>
 
-DrawableObject::DrawableObject(SDL_Renderer* const renderer)
+RenderObject::RenderObject(SDL_Renderer* const renderer)
     : renderer(renderer) {
 }
 
-void DrawableObject::setRotationCenter(const SDL_Point& point) {
+void RenderObject::setRotationCenter(const SDL_Point& point) {
     this->rotationCenter = point;
 }
 
-void DrawableObject::setRotationCenter(uint16_t x, uint16_t y) {
+void RenderObject::setRotationCenter(uint16_t x, uint16_t y) {
     this->rotationCenter.x = x;
     this->rotationCenter.y = y;
 }
 
-const SDL_Point& DrawableObject::getRotationCenter() const {
+const SDL_Point& RenderObject::getRotationCenter() const {
     return this->rotationCenter;
 }
 
-void DrawableObject::setAngle(float angle) {
+void RenderObject::setAngle(float angle) {
     this->rotationAngle = angle;
 }
 
-double DrawableObject::getAngle() const {
+double RenderObject::getAngle() const {
     return this->rotationAngle;
 }
 
-void DrawableObject::setX(uint16_t x) {
+void RenderObject::setX(uint16_t x) {
     this->dstRect.x = x;
 }
 
-void DrawableObject::setY(uint16_t y) {
+void RenderObject::setY(uint16_t y) {
     this->dstRect.y = y;
 }
 
-uint16_t DrawableObject::getX() const {
+uint16_t RenderObject::getX() const {
     return this->dstRect.x;
 }
 
-uint16_t DrawableObject::getY() const {
+uint16_t RenderObject::getY() const {
     return this->dstRect.y;
 }
 
-void DrawableObject::setSourceRectangle(const SDL_Rect& rectangle) {
+void RenderObject::setSourceRectangle(const SDL_Rect& rectangle) {
     this->srcRect = rectangle;
 }
 
-void DrawableObject::setSourceRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
+void RenderObject::setSourceRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
     this->srcRect.x = x;
     this->srcRect.y = y;
     this->srcRect.w = w;
     this->srcRect.h = h;
 }
 
-void DrawableObject::setDestinationRectangle(const SDL_Rect& rectangle) {
+void RenderObject::setDestinationRectangle(const SDL_Rect& rectangle) {
     this->dstRect = rectangle;
 }
 
-void DrawableObject::setDestinationRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
+void RenderObject::setDestinationRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
     this->dstRect.x = x;
     this->dstRect.y = y;
     this->dstRect.w = w;
     this->dstRect.h = h;
 }
 
-void DrawableObject::setPosition(const SDL_Point& position) {
+void RenderObject::setPosition(const SDL_Point& position) {
     this->setX(position.x);
     this->setY(position.y);
 }
 
-void DrawableObject::setPosition(uint16_t x, uint16_t y) {
+void RenderObject::setPosition(uint16_t x, uint16_t y) {
     this->setX(x);
     this->setY(y);
 }
 
-uint16_t DrawableObject::getWidth() const {
+uint16_t RenderObject::getWidth() const {
     return this->dstRect.w;
 }
 
-uint16_t DrawableObject::getHeight() const {
+uint16_t RenderObject::getHeight() const {
     return this->dstRect.h;
 }
 
-const SDL_Point DrawableObject::getPosition() const {
+const SDL_Point RenderObject::getPosition() const {
     return {this->getX(), this->getY()};
 }
 
-void DrawableObject::load(const char* imageFileName) {
+void RenderObject::load(const char* imageFileName) {
     SDL_Surface* tmp = IMG_Load(imageFileName);
     if (tmp == nullptr) {
         std::clog << "Can't load image \"" << imageFileName << "\"\n";
@@ -107,7 +107,7 @@ void DrawableObject::load(const char* imageFileName) {
     this->setRotationCenter(this->getWidth() / 2, this->getHeight() / 2);
 }
 
-void DrawableObject::draw() {
+void RenderObject::render() {
     if (!SDL_RenderCopyEx(this->renderer,
             this->texture,
             &this->srcRect,
@@ -120,6 +120,6 @@ void DrawableObject::draw() {
     }
 }
 
-void DrawableObject::setRendererFlip(const SDL_RendererFlip& rendererFlip) {
+void RenderObject::setRendererFlip(const SDL_RendererFlip& rendererFlip) {
     this->rendererFlip = rendererFlip;
 }

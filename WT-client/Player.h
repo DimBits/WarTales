@@ -1,10 +1,10 @@
 #ifndef PLAYER_H
 #define	PLAYER_H
 
-#include "DrawableObject.h"
+#include "RenderObject.h"
 #include "InputReactingObject.h"
 
-class Player final : virtual public DrawableObject, virtual public InputReactingObject {
+class Player final : virtual public RenderObject, virtual public InputReactingObject {
 public:
     Player();
     virtual ~Player() {}

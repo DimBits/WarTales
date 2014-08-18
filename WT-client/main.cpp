@@ -1,9 +1,8 @@
-#include "Game.h"
+#include "WTClient.h"
 
 int main(int argc, char** argv) {
-    Game WarTales;
+    WTClient WarTales;
     WarTales.setRenderDrawColor({255, 255, 255, 255});
     WarTales.exec();
     return 0;
 }
-

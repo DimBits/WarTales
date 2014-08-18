@@ -8,12 +8,12 @@
 
 namespace wt {
     namespace DEFAULT {
-        extern const char* GAME_WINDOW_TITLE;
-        extern const SDL_Rect GAME_WINDOW_POSITION;
-        extern const SDL_Color GAME_RENDER_DRAW_COLOR;
-        extern const uint32_t GAME_FPS;
-        extern const uint32_t GAME_LOOP_TIMEOUT;
-        extern const uint32_t GAME_WINDOW_FLAGS;
+        extern const char* WINDOW_TITLE;
+        extern const SDL_Rect WINDOW_POSITION;
+        extern const SDL_Color RENDER_DRAW_COLOR;
+        extern const uint32_t FPS;
+        extern const uint32_t LOOP_TIMEOUT;
+        extern const uint32_t WINDOW_FLAGS;
         
         extern const SDL_RendererFlip RENDERER_FLIP;
     }

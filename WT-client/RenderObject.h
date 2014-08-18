@@ -1,15 +1,15 @@
-#ifndef DRAWABLEOBJECT_H
-#define	DRAWABLEOBJECT_H
+#ifndef RENDEROBJECT_H
+#define	RENDEROBJECT_H
 
 #include "Object.h"
 #include "wt-client.h"
 #include <SDL_render.h>
 
-class DrawableObject : virtual public Object {
+class RenderObject : virtual public Object {
 public:
-    DrawableObject(SDL_Renderer* const renderer);
-    virtual ~DrawableObject() {}
-    void draw();
+    RenderObject(SDL_Renderer* const renderer);
+    virtual ~RenderObject() {}
+    virtual void render();
     void load(const char* imageFileName);
     void setRotationCenter(const SDL_Point& point);
     void setRotationCenter(uint16_t x, uint16_t y);
@@ -39,5 +39,5 @@ private:
     double rotationAngle;
 };
 
-#endif	/* DRAWABLEOBJECT_H */
+#endif	/* RENDEROBJECT_H */
 

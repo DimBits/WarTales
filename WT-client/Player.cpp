@@ -1,8 +1,8 @@
 #include "Player.h"
-#include "Game.h"
+#include "WTClient.h"
 
 Player::Player()
-    : DrawableObject(Game::getInstance()->getRenderer()) {
+    : RenderObject(WTClient::getInstance()->getRenderer()) {
     
 }
 
@@ -33,18 +33,18 @@ void Player::onMouseMove(SDL_Event& event) {
 
 void Player::onMouseButtonDown(SDL_Event& event) {
     int32_t width, height;
-    Game::getInstance()->getSize(width, height);
+    WTClient::getInstance()->getSize(width, height);
     width += 50;
     height += 50;
-    Game::getInstance()->setSize(width, height);
+    WTClient::getInstance()->setSize(width, height);
 }
 
 void Player::onMouseButtonUp(SDL_Event& event) {
     int32_t width, height;
-    Game::getInstance()->getSize(width, height);
+    WTClient::getInstance()->getSize(width, height);
     width -= 50;
     height -= 50;
-    Game::getInstance()->setSize(width, height);
+    WTClient::getInstance()->setSize(width, height);
 }
 
 void Player::onMouseWheel(SDL_Event& event) {
