@@ -1,16 +1,17 @@
 #ifndef OBJECTMANAGER_H
 #define	OBJECTMANAGER_H
 
+#include <SDL_events.h>
 #include <unordered_map>
 #include "Noncopyable.h"
-#include "EventProcessingObject.h"
-#include "Object.h"
 
-class ObjectManager final : public Noncopyable, public EventProcessingObject {
+class Object;
+
+class ObjectManager final : public Noncopyable {
 public:
     ObjectManager();
     virtual ~ObjectManager() {}
-    void processEvent(SDL_Event& event) override;
+    void processEvent(const SDL_Event& event) ;
     void render();
 private:
     std::unordered_map<uint32_t, Object*> objects;

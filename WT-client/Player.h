@@ -1,19 +1,9 @@
 #ifndef PLAYER_H
 #define	PLAYER_H
 
-#include "RenderObject.h"
-#include "InputReactingObject.h"
-
-class Player final : virtual public RenderObject, virtual public InputReactingObject {
+class Player final {
 public:
-    Player();
-    virtual ~Player() {}
-    void onMouseMove(SDL_Event& event) override;
-    void onMouseButtonDown(SDL_Event& event) override;
-    void onMouseButtonUp(SDL_Event& event) override;
-    void onMouseWheel(SDL_Event& event) override;
-    void onKeyDown(SDL_Event& event) override;
-    void onKeyUp(SDL_Event& event) override;
+    
 };
 
 #endif	/* PLAYER_H */
